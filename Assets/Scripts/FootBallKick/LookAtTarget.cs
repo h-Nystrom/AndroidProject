@@ -1,15 +1,27 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FootBallKick{
     public class LookAtTarget : MonoBehaviour{
         [SerializeField] Transform target;
-        Transform camTransform;
         void Start(){
-            camTransform = Camera.main.transform;
-            UpdateRotation();
+            MessageHandler.instance.SubscribeTo<HitTargetMessage>(PointMessage);
         }
-        public void UpdateRotation(){
-            camTransform.LookAt(target);
+
+        void OnDestroy(){
+            MessageHandler.instance.UnsubscribeFrom<HitTargetMessage>(PointMessage);
+        }
+        public void UpdatePositionAndRotation(){
+            Invoke(nameof(UpdateDelay), 1f);
+        }
+
+        void UpdateDelay(){
+            transform.position = new Vector3(Random.Range(-20f,21f), 0.5f,Random.Range(10f, -18f));
+            transform.LookAt(target);
+        }
+        void PointMessage(HitTargetMessage hitTargetMessage){
+            UpdatePositionAndRotation();
         }
     }
 }
