@@ -58,35 +58,36 @@ namespace FootBallKick{
                     return;
                 }
                 
-                Debug.DrawRay(transform.position + lastPosition * 2, parent.up * 2, Color.black, 2f);
-                Debug.DrawRay(transform.position + curvePosition * 2, parent.up * 2, Color.red, 2f);
-                GetHeight();
-                Debug.DrawRay(parent.position, CalculateLaunchVelocity(lastPosition), Color.yellow, 2f);
-                rb.velocity += CalculateLaunchVelocity(lastPosition);
+                var test = CalculateLaunchVelocity();
+                rb.velocity += test;
+                Debug.DrawRay(parent.position, CalculateLaunchVelocity(), Color.yellow, 2f);
+                // Debug.DrawRay(lastPosition, Vector3.up * 5, Color.black, 5f);
+                // Debug.DrawRay(curvePosition, Vector3.up * 5, Color.black, 5f);
+                GetSpin();
                 lastPosition = Vector3.zero;
-                curvePosition = Vector3.zero;
                 isDraging = false;
                 isKicked = true;
                 Invoke(nameof(ReturnBall), 5f);
             }
         }
-        Vector3 CalculateLaunchVelocity(Vector3 targetPosition){
-            const int g = -18;
-            const int height = 2;
 
-            var displacementY = targetPosition.y - parent.position.y;
-            var displacementXZ = new Vector3(curvePosition.x - parent.position.x,0,targetPosition.z - parent.position.z);
+        void FixedUpdate(){
+            if (!isKicked) 
+                return;
+            rb.AddForce(-parent.right * (curvePosition.x * spinForce), ForceMode.VelocityChange);
+        }
+        void GetSpin(){
+            curvePosition.x -= lastPosition.x;
+        }
+        Vector3 CalculateLaunchVelocity(){
+            const int g = -18;
+            var height = 6;
+            var displacementY = 3 - parent.position.y;
+            // var displacementXZ = new Vector3(lastPosition.x - parent.position.x,0,lastPosition.z - parent.position.z);
+            var displacementXZ = curvePosition.normalized * (lastPosition.z + curvePosition.z);
             var velocityY = Vector3.up * Mathf.Sqrt(-2 * g * height);
             var velocityXZ = displacementXZ / (Mathf.Sqrt(-2* height/g) + Mathf.Sqrt(2 * (displacementY - height) / g));
             return velocityXZ + velocityY;
-        }
-        void GetHeight(){
-            //Height of max point
-            //Height of lastPosition
-            var totalTime = Time.time - startTime;
-            // var distance = Vector3.Slerp(parent.position, curvePosition, 1) + lastPosition - curvePosition;
-            print("Total time: " + totalTime + " Curve time: " + curveTime);
-            print("Start: " + parent.position + " Curve: " + curvePosition + " End: " + lastPosition);
         }
         bool RaycastClickCheck(){
             var ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -104,55 +105,13 @@ namespace FootBallKick{
         }
         void ScreenToWorldXZPosition(){
             var screenPositionDifference = (Input.mousePosition - screenStartPosition) / Screen.dpi;
-            var direction = parent.forward * screenPositionDifference.y + parent.right * screenPositionDifference.x;
-            // Debug.DrawRay(transform.position + direction * 2, parent.up * 2, Color.black, 1f);
-            if (Mathf.Abs(direction.x) > Mathf.Abs(lastPosition.x) && Vector3.Distance(direction, curvePosition) < 4){
+            var direction = (parent.forward * screenPositionDifference.y + parent.right * screenPositionDifference.x);
+            if (Mathf.Abs(direction.x) > Mathf.Abs(lastPosition.x) && Vector3.Distance(direction, curvePosition) < 2){
                 curvePosition = direction;
-                curveTime = Time.time - startTime;
             }
             lastPosition = direction;
             oldScreenPosition = Input.mousePosition;
         }
-// void FixedUpdate(){
-        //     if(!isKicked)
-        //         return;
-        //     rb.velocity += oldPosition;
-        //     if (Vector3.Distance(transform.position, oldPosition) < 1.15f){
-        //         print("Yes");
-        //         oldPosition = positionQueue.Count > 0 ? positionQueue.Dequeue() : Vector3.zero;
-        //         var dir = (oldPosition - transform.position).normalized;
-        //     }
-        //
-        // }
-        // void FixedUpdate(){
-        //     if(rb.velocity.magnitude < 1)
-        //          return;
-        //     rb.AddForce(parent.right * (maxCurveSpeed * rb.velocity.magnitude * 0.5f), ForceMode.Force);
-        //  }
-        // void OnMouseDown(){
-        //     if(Vector3.Distance(parent.position, transform.position) > 0.1f)
-        //         return;
-        //     positionList.Clear();
-        //     screenStartPosition = Input.mousePosition;
-        //     oldScreenPosition = screenStartPosition;
-        //     startTime = Time.time;
-        //     isDraging = true;
-        // }
-        // void OnMouseUp(){
-        //     isDraging = false;
-        //     if (positionList.Count <= 2) return;
-        //     var passedTime = Time.time - startTime;
-        //     var screenPositionDifference = positionList[positionList.Count / 2];
-        //     //maxCurveSpeed = positionList[positionList.Count-1].x - screenPositionDifference.x;
-        //     //maxUpForce = Vector3.Distance(positionList[0], positionList[positionList.Count - 1]) * upForce;
-        //     var direction = screenPositionDifference;// + (Vector3.up * maxUpForce);
-        //     var clampedDirection = Vector3.ClampMagnitude(direction, maxInputSpeed);
-        //     Debug.DrawRay(parent.position, clampedDirection * speed / passedTime, Color.red, 5f);
-        //     //rb.AddForce(clampedDirection * speed / passedTime);
-        //     
-        //     positionList.Clear();
-        //     // Invoke(nameof(ReturnBall), 4f);
-        // }
         // void GetCurvePositions(){
         //     if (Vector3.Distance(oldScreenPosition, Input.mousePosition) < positionsDifferenceDistance)
         //         return;
@@ -184,10 +143,10 @@ namespace FootBallKick{
         //     
         // }
 
-        void OnTriggerEnter(Collider other){
-            if(other.gameObject.layer == LayerMask.NameToLayer("Default"))
-                maxCurveSpeed = 0;
-        }
+        // void OnTriggerEnter(Collider other){
+        //     if(other.gameObject.layer == LayerMask.NameToLayer("Default"))
+        //         maxCurveSpeed = 0;
+        // }
         //DeveloperBuildTools:
         public void SetSpeed(float value){
             speed = value;
