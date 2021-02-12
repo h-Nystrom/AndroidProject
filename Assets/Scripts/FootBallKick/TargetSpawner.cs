@@ -15,7 +15,7 @@ namespace FootBallKick{
         }
 
         void ActuallySpawnTarget(){
-            var position = new Vector3(Random.Range(-5f, 6f),Random.Range(1f,6f),0);
+            var position = new Vector3(Random.Range(-5f, 6f),Random.Range(1f,6f),-0.2f);
             var instance = Instantiate(targetPrefab, transform);
             instance.transform.localPosition = position;
         }

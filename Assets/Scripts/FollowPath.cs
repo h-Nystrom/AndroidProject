@@ -9,7 +9,7 @@ public class FollowPath : MonoBehaviour{
     [SerializeField] float speed = 0.5f;
     Camera cam;
     Queue<Vector3> paths = new Queue<Vector3>();
-    [SerializeField]Vector3 currentPath;
+    Vector3 currentPath;
     RaycastHit hit;
     Rigidbody rb;
     void Start()
@@ -17,30 +17,21 @@ public class FollowPath : MonoBehaviour{
         cam = Camera.main;
         rb = GetComponent<Rigidbody>();
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0)){
-            StopCoroutine(nameof(AddPositions));
-            AddToQueue();
-            print(paths.Count);
             StartCoroutine(nameof(AddPositions));
         }
-        if (Input.GetMouseButtonUp(0)){
-            StopCoroutine(nameof(AddPositions));
-            AddToQueue();
-            print(paths.Count);
-            UpdateCurrentPath();
-        }
+        if (!Input.GetMouseButtonUp(0)) return;
+        StopCoroutine(nameof(AddPositions));
+        AddToQueue();
+        UpdateCurrentPath();
     }
-
     void FixedUpdate(){
         if(currentPath == Vector3.zero)
             return;
         Move();
         if (Vector3.Distance(transform.position, currentPath) < 1.15f){
-            print("Yes");
             UpdateCurrentPath();
         }
     }
@@ -52,14 +43,12 @@ public class FollowPath : MonoBehaviour{
         var dir = (currentPath - transform.position).normalized;
         rb.velocity += dir * speed;
     }
-
     IEnumerator AddPositions(){
         while (true){
             AddToQueue();
             yield return new WaitForSeconds(0.1f);
         }
     }
-    
     void AddToQueue(){
         var ray = cam.ScreenPointToRay(Input.mousePosition);
         
