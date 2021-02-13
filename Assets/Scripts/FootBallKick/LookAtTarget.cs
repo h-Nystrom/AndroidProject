@@ -17,7 +17,7 @@ namespace FootBallKick{
         }
 
         void UpdateDelay(){
-            transform.position = new Vector3(Random.Range(-20f,21f), 0.5f,Random.Range(10f, -8f));
+            transform.position = new Vector3(Random.Range(-30f,31f), 0.5f,Random.Range(-15f,5f));
             transform.LookAt(target);
         }
         void PointMessage(HitTargetMessage hitTargetMessage){

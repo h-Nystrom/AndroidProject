@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "emulator-5554",
         "name": "com.DefaultCompany.AndroidProject",
-        "processId": 6628,
+        "processId": 8909,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -23,79 +23,67 @@
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 5883,
+            "processId": 8977,
             "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 4107,
+            "processId": 9504,
             "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 4903,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.AndroidProject",
-            "processId": 5696,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.AndroidProject",
-            "processId": 6383,
+            "processId": 10611,
             "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.bluestacks.appmart",
-            "processId": 2229,
+            "processId": 2219,
             "exited": false
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 7122,
+            "processId": 4808,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.AndroidProject",
+            "processId": 5254,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "com.DefaultCompany.AndroidProject",
+            "processId": 6286,
             "exited": false
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 7632,
+            "processId": 7042,
             "exited": false
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 8266,
+            "processId": 7726,
             "exited": false
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 4678,
+            "processId": 8418,
             "exited": false
         },
         {
             "deviceId": "emulator-5554",
             "name": "com.DefaultCompany.AndroidProject",
-            "processId": 5585,
-            "exited": false
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.AndroidProject",
-            "processId": 6027,
-            "exited": false
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "com.DefaultCompany.AndroidProject",
-            "processId": 6628,
+            "processId": 8909,
             "exited": false
         }
     ],
